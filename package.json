@@ -1,15 +1,23 @@
 {
-  "name": "stackly-task1",
+  "name": "y",
   "version": "1.0.0",
-  "description": "",
+  "description": "task 1",
+  "keywords": [],
+  "homepage": "https://github.com/Joshith-reddy/stackly-task1#readme",
+  "bugs": {
+    "url": "https://github.com/Joshith-reddy/stackly-task1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshith-reddy/stackly-task1.git"
+  },
+  "license": "ISC",
+  "author": "Joshith",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
