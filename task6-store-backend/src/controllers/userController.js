@@ -68,8 +68,44 @@ const getUserById = async (req, res) => {
     }
 };
 
+// UPDATE
+
+const updateUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        Object.assign(user, req.body);
+
+        await user.save();
+
+        res.status(200).json({
+            message: "User updated successfully",
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                age: user.age,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error("Update user error:", error.message);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
+
 module.exports = {
     createUser,
     getUsers,
-    getUserById
+    getUserById,
+    updateUser
 };
