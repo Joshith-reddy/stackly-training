@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-//create a new user
+//CREATE a new user
 const createUser = async (req, res) => {
     try {
         const { name, email, password, age } = req.body;
@@ -33,6 +33,7 @@ const createUser = async (req, res) => {
     }
 };
 //GET all users
+
 const getUsers = async (req, res) => {
     try {
         const users = await User.find().select("-password");
@@ -48,6 +49,7 @@ const getUsers = async (req, res) => {
 };
 
 //GET user by ID
+
 const getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
@@ -68,7 +70,7 @@ const getUserById = async (req, res) => {
     }
 };
 
-// UPDATE
+// UPDATE user by ID
 
 const updateUser = async (req, res) => {
     try {
@@ -103,9 +105,34 @@ const updateUser = async (req, res) => {
     }
 };
 
+//DELETE user by ID
+
+const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User deleted successfully"
+        });
+    } catch (error) {
+        console.error("Delete user error:", error.message);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
+
 module.exports = {
     createUser,
     getUsers,
     getUserById,
-    updateUser
+    updateUser,
+    deleteUser
 };
