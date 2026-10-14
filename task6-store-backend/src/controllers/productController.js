@@ -53,8 +53,39 @@ const getProductById = async (req, res) => {
             message: 'Internal Server Error'});
     }
 };
+
+//Update a product by ID
+const updateProduct = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        Object.assign(product, req.body);
+
+        await product.save();
+
+        res.status(200).json({
+            message: "Product updated successfully",
+            product
+        });
+    } catch (error) {
+        console.error("Update product error:", error.message);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
+
+//Exporting the functions to be used in routes
 module.exports = {
     createProduct,
     getProducts,
-    getProductById
+    getProductById,
+    updateProduct
 };
