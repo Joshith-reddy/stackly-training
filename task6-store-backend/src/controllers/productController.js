@@ -82,10 +82,35 @@ const updateProduct = async (req, res) => {
     }
 };
 
+//Delete a product by ID
+const deleteProduct = async (req, res) => {
+    try {
+        const product = await Product.findByIdAndDelete(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Product deleted successfully"
+        });
+    } catch (error) {
+        console.error("Delete product error:", error.message);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
 //Exporting the functions to be used in routes
 module.exports = {
     createProduct,
     getProducts,
     getProductById,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };
+
+    
