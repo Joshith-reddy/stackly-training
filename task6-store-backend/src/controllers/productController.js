@@ -8,6 +8,28 @@ const createProduct = async (req, res) => {
             price, 
             category, 
             stock } = req.body;
+    
+    // Validate required fields
+        if (!name || price === undefined) {
+            return res.status(400).json({
+                message: "Name and price are required"
+            });
+        }
+
+        if (typeof price !== "number" || Number.isNaN(price)) {
+            return res.status(400).json({
+                message: "Price must be a valid number"
+            });
+        }
+
+        if (
+            stock !== undefined &&
+            (typeof stock !== "number" || Number.isNaN(stock))
+        ) {
+            return res.status(400).json({
+                message: "Stock must be a valid number"
+            });
+        }
         const product = new Product({ 
                 name, 
                 description, 
@@ -58,10 +80,28 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
-
+        
+        // Validate required fields while updating
         if (!product) {
             return res.status(404).json({
                 message: "Product not found"
+            });
+        }
+
+         if (price !== undefined &&
+            (typeof price !== "number" || Number.isNaN(price))
+        ) {
+            return res.status(400).json({
+                message: "Price must be a valid number"
+            });
+        }
+
+        if (
+            stock !== undefined &&
+            (typeof stock !== "number" || Number.isNaN(stock))
+        ) {
+            return res.status(400).json({
+                message: "Stock must be a valid number"
             });
         }
 

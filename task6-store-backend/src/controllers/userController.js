@@ -1,9 +1,18 @@
 const User = require("../models/User");
 
+
 //CREATE a new user
 const createUser = async (req, res) => {
     try {
         const { name, email, password, age } = req.body;
+    
+        // Validate required fields
+         if (!name || !email) {
+            return res.status(400).json({
+                message: "Name and email are required"
+            });
+        }
+       
 
         const user = new User({
             name,
