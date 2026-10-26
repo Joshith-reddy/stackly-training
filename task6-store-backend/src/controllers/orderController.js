@@ -15,6 +15,24 @@ const createOrder = async (req, res) => {
     }
 };
 
-module.exports = {
-    createOrder
+//Retrieve all orders for the authenticated user
+const getOrders = async (req, res) => {
+    try {
+        let orders;
+        if (req.user.role === "user") {
+            orders = await Order.find({ user: req.user.userId });
+        } else {
+            orders = await Order.find();
+        }
+        res.status(200).json({ orders });
+    } catch (error) {
+        console.error("Error retrieving orders:", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 };
+
+module.exports = {
+    createOrder,
+    getOrders
+};  
+    
