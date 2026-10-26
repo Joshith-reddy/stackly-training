@@ -7,13 +7,14 @@ const {
     updateUser,
     deleteUser
 } = require("../controllers/userController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 //Post route for creating a new user
 router.post("/", createUser);
 //Get route for retrieving all users
-router.get("/", getUsers);
+router.get("/", authMiddleware, getUsers);
 //Get route for retrieving a user by ID
 router.get("/:id", getUserById);
 //Put route for updating user information
