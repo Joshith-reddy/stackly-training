@@ -1,4 +1,5 @@
 //Order controller
+const mongoose = require("mongoose");
 const Order = require("../models/Order");
 // Create a new order
 const createOrder = async (req, res) => {
@@ -31,8 +32,31 @@ const getOrders = async (req, res) => {
     }
 };
 
+//Retrieve a specific order by ID
+const getOrderById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid order ID" });
+        }   
+        let order;
+        if (req.user.role === "user") {
+            order = await Order.findOne({ _id: id, user: req.user.userId });
+        } else {
+            order = await Order.findById(id);
+        }
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        res.status(200).json({ order });
+    } catch (error) {
+        console.error("Error retrieving order:", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
 module.exports = {
     createOrder,
-    getOrders
+    getOrders,
+    getOrderById
 };  
-    
